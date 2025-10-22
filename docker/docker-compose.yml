@@ -1,0 +1,17 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: wiki_rag_db
+    restart: always
+    environment:
+      POSTGRES_USER: rag_user
+      POSTGRES_PASSWORD: rag_pass
+      POSTGRES_DB: wiki_rag
+    ports:
+      # Map container 5432 to host 5432 to avoid conflicts with any native Postgres
+      - "5433:5432"
+    volumes:
+      # Persist database data outside the container
+      - ./pgdata:/var/lib/postgresql/data
+      # Optional: run initialization scripts on first startup
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
