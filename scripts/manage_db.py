@@ -6,7 +6,7 @@ conn = psycopg2.connect(
     dbname="askit_db",
     user="rag_user",
     password="rag_pass",
-    host="localhost",
+    host="db",
     port="5432"
 )
 cur = conn.cursor()

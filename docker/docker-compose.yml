@@ -8,10 +8,19 @@ services:
       POSTGRES_PASSWORD: rag_pass
       POSTGRES_DB: askit_db
     ports:
-      # Map container 5432 to host 5432 to avoid conflicts with any native Postgres
-      - "5432:5432"
+      # Map container 5433 to host 5433 to avoid conflicts with any native Postgres (5432)
+      - "5433:5432"
     volumes:
       # Persist database data outside the container
       - ./pgdata:/var/lib/postgresql/data
       # Optional: run initialization scripts on first startup
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  api:
+    build: 
+      context: ../
+      dockerfile: ./docker/Dockerfile.api
+    container_name: askit_api
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
